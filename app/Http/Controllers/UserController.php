@@ -8,8 +8,8 @@ use App\User;
 class UserController extends Controller
 {
 
-    public function __cosntruct(){
-        $this->middleware(['jwt.auth','jwt.refresh']);
+    public function __construct(){
+        $this->middleware(['jwt.auth', 'jwt.refresh']); 
     }
     
     public function index(){
@@ -33,12 +33,12 @@ class UserController extends Controller
     }
 
     public function show($id){
-        return User::find($id)?:[];
+         return User::find($id) ?: [];
     }
 
     public function update(Request $request,$id){
         $user=User::find($id);
-        $user->fill($request->all())-save();
+        $user->fill($request->all())->save();
         return response()->json([
             "res"=>"Usuario con el id {$id} actualizado"
         ]);
