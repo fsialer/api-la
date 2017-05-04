@@ -18,6 +18,7 @@ use Illuminate\Http\Request;
 });
 }*/
 $api=app('Dingo\Api\Routing\Router');
+
 $api->version('v1',function($api){
     $api->group(['middleware'=>'cors'],function($api){
         $api->post('login','App\Http\Controllers\AuthenticationController@login');

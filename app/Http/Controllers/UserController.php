@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 
 use Illuminate\Http\Request;
-use App\User;
+use \App\User;
 class UserController extends Controller
 {
 
@@ -24,8 +24,9 @@ class UserController extends Controller
             ]);
     }
 
-    public function store($request){
-        $user=new User;
+    public function store(Request $request){
+        
+        $user=new User();
         $inserted=$user->create($request->input());
         return response()->json([
             "res"=>"El usuario con id {$inserted->id} ha sido guardado"

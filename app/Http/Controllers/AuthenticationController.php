@@ -1,11 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Http\Request;
 
-use App\User;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
+use App\User;
 
 class AuthenticationController extends Controller
 {
@@ -14,20 +15,28 @@ class AuthenticationController extends Controller
     }
 
     public function login(Request $request){
-        /*$credentials=$request->only('email','password');*/
-        /*$request["password"]=bcrypt($request["password"]);*/
-        try{
-         $user = User::where(['email' => $request["email"]])->first(['email', 'id', 'name']);
-            if($user){
-                if(!$token=JWTAuth::fromUser($user,['email'=>$user->email,'id'=>$user->id,'name'=>$user->name])){
-                    return response()->json(['error'=>'Invalid_credentials'],401);
+      
+         try
+        {
+            $user = User::where(['email' => $request['email'],'password'=>$request['password']])->first(['email','id','name']);
+
+            if($user)
+            {
+                if(!$token = JWTAuth::fromUser($user, ['email' => $user->email, 'id' => $user->id, 'name'=> $user->name]))
+                { 
+                    return response()->json(['error' => 'invalid_credentials'], 401);
                 }
-            }else{
-                  return response()->json(['error'=>'Invalid_credentials'],401);
             }
-        }catch(JWTException $e){
-            return response()->json(['error'=>'No se puede crear el token'],500);
-        }        
+            else
+            {
+                return response()->json(['error' => 'invalid_credentials'], 401);
+            }
+        }
+        catch(JWTException $e)
+        {
+            return response()->json(['error'  => 'no se ha podido crear el token' ], 500);
+        }
+
         return response()->json(compact('token'));
     }
 
