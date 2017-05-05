@@ -25,7 +25,7 @@ class UserController extends Controller
     }
 
     public function store(Request $request){
-        
+      /*  dd($request->all());*/
         $user=new User();
         $inserted=$user->create($request->input());
         return response()->json([
